@@ -33,5 +33,6 @@ Imports:
     withr
 Remotes:
     posit-dev/btw
-URL: https://github.com/simonpcouch/thonk
+URL: https://github.com/simonpcouch/thonk, https://simonpcouch.github.io/thonk/
 BugReports: https://github.com/simonpcouch/thonk/issues
+Config/Needs/website: tidyverse/tidytemplate

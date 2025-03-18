@@ -7,6 +7,15 @@
 \description{
 Helps users understand and address error messages using large language models. With the tool enabled, errors raised to the user are accompanied by clickable links to "explain" or "fix" the issue. Explanations are printed to the console while fixes implement changes directly; in both cases, the model is supplied context about the files you're working in and the functions you're working with.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/simonpcouch/thonk}
+  \item \url{https://simonpcouch.github.io/thonk/}
+  \item Report bugs at \url{https://github.com/simonpcouch/thonk/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Simon Couch \email{simon.couch@posit.co} (\href{https://orcid.org/0000-0001-5676-5107}{ORCID})
 
