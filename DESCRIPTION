@@ -33,3 +33,5 @@ Imports:
     withr
 Remotes:
     posit-dev/btw
+URL: https://github.com/simonpcouch/thonk
+BugReports: https://github.com/simonpcouch/thonk/issues
