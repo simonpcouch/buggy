@@ -34,7 +34,7 @@ your `.Rprofile`, perhaps with `usethis::edit_r_profile()`.
 
 In the following example, I make a mistake when plotting mtcars:
 
-<img src="https://github.com/user-attachments/assets/aba69171-ab51-48eb-b6b7-b7510537c8c3" alt="A screencast of a Positron session. A script called example.R is open in the editor with some ggplot2 lines, namely with `geom_point(position = position_jitter)`, which will cause an error. Running the code results in both an error and a note 'Click to explain or fix the last error.'" width="100%" />
+<img src="https://github.com/user-attachments/assets/aba69171-ab51-48eb-b6b7-b7510537c8c3" alt="A screencast of a Positron session. A script called example.R is open in the editor with some ggplot2 lines, namely with 'geom_point(position = position_jitter)', which will cause an error. Running the code results in both an error and a note 'Click to explain or fix the last error.'" width="100%" />
 
 Upon seeing the error, I click the “explain” link and, after wrapping my
 head around the issue, allow the model to “fix” it. Once the model fixes
