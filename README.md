@@ -1,0 +1,45 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# thonk
+
+<!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/thonk)](https://CRAN.R-project.org/package=thonk)
+<!-- badges: end -->
+
+The goal of thonk is to help users understand and address error messages
+using LLMs. With the tool enabled, errors raised to the user are
+accompanied by clickable links to “explain” or “fix” the issue.
+Explanations are printed to the console while fixes implement changes
+directly; in both cases, the model is supplied context about the files
+you’re working in and the functions you’re working with.
+
+## Installation
+
+You can install the development version of thonk like so:
+
+``` r
+pak::pak("simonpcouch/thonk")
+```
+
+To enable thonk, call `thonk::thonk_enable()`. To always have thonk
+enabled every time you start R, you could add `thonk::thonk_enable()` to
+your `.Rprofile`, perhaps with `usethis::edit_r_profile()`.
+
+## Example
+
+In the following example, I make a mistake when plotting mtcars:
+
+Upon seeing the error, I click the “explain” link and, after wrapping my
+head around the issue, allow the model to “fix” it. Once the model fixes
+the code, it runs correctly.
+
+## Thanks
+
+I’d tossed this package idea around with various folks over the last few
+months before deciding to give it a go: namely, Barret Schloerke and
+Joshua Yamamoto.
