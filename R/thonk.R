@@ -251,11 +251,13 @@ thonk_fix <- function() {
       
       finder_prompt <- paste0(
         "I need to fix a bug in the following R file. The error occurs around line ", 
-        error_line, 
-        ". Please analyze the code and determine the exact start and end line indices of the block that needs to be replaced.\n\n",
+        error_line - 1, ". ", 
+        "The proposed fix is: `", fix_code, "`. ",
+        "Please analyze the code and determine how to incorporate the fix. You will supply the exact start and end line indices of the block that needs to be replaced as well as the incorporated fix.\n\n",
         "FILE CONTENT:\n", 
-        paste(file_content, collapse = "\n"),
-        "\n\nRETURN FORMAT: Return only a JSON object with 'start_line' and 'end_line' as numbers. Nothing else."
+        # actually write out the line numbers for the model
+        paste(paste0("[", seq_len(length(file_content)), "] ", file_content), collapse = "\n"),
+        "\n\nRETURN FORMAT: Return a JSON object with 'start_line' and 'end_line' as numbers as well as the modified line(s) of code that incorporates the fix. Nothing else. Don't include the bracketed line indices in your response."
       )
       
       tryCatch(
@@ -265,7 +267,8 @@ thonk_fix <- function() {
               finder_prompt, 
               type = ellmer::type_object(
                 start_line = ellmer::type_number("Starting line index"),
-                end_line = ellmer::type_number("Ending line index")
+                end_line = ellmer::type_number("Ending line index"),
+                fixed_code = ellmer::type_string("The modified line(s) of code incorporating the fix.")
               )
             )
         },
@@ -275,6 +278,7 @@ thonk_fix <- function() {
         }
       )
 
+      .stash_last_thonk(finder_chat, which = "finder")
       
       range <- rstudioapi::document_range(
         c(line_indices_json$start_line, 1),
@@ -283,7 +287,7 @@ thonk_fix <- function() {
       
       rstudioapi::modifyRange(
         location = range,
-        text = fix_code
+        text = line_indices_json$fixed_code
       )
     }
   }
