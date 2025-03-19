@@ -1,8 +1,8 @@
 test_that("extract_function_info works", {
   expect_equal(extract_function_info(NULL), list(func = NULL, pkg = NULL))
   
-  call <- quote(dplyr::filter(mtcars, cyl == 6))
-  expect_equal(extract_function_info(call), list(func = "filter", pkg = "dplyr"))
+  call <- quote(withr::defer("hey there"))
+  expect_equal(extract_function_info(call), list(func = "defer", pkg = "withr"))
   
   call <- quote(rlang::sym("x"))
   expect_equal(extract_function_info(call), list(func = NULL, pkg = NULL))
@@ -35,7 +35,7 @@ test_that("set_thonk_chat works", {
   expect_snapshot(res <- set_thonk_chat("not a chat"))
   
   skip_if(identical(Sys.getenv("ANTHROPIC_API_KEY"), ""))
-  res <- set_thonk_chat(ellmer:::chat_claude(model = "claude-3-7-sonnet-latest"))
+  res <- set_thonk_chat(chat_claude(model = "claude-3-7-sonnet-latest"))
   expect_contains(class(res), "R6")
 })
 

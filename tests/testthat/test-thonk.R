@@ -34,7 +34,7 @@ test_that("thonk_explain works with error info", {
     .stash_last_thonk = function(...) NULL
   )
   
-  chat <- ellmer:::chat_claude(model = "claude-3-7-sonnet-latest")
+  chat <- chat_claude(model = "claude-3-7-sonnet-latest")
   
   mock_error_info <- list(
     error_msg = "Error message",
@@ -84,7 +84,7 @@ test_that("thonk_fix works with an error without file info", {
     .stash_last_thonk = function(...) NULL
   )
   
-  chat <- ellmer:::chat_claude(model = "claude-3-7-sonnet-latest")
+  chat <- chat_claude(model = "claude-3-7-sonnet-latest")
   
   mock_error_info <- list(
     error_msg = "Error message",

@@ -81,7 +81,7 @@ thonk_enable <- function(chat = getOption(".thonk_chat")) {
     )
 
     cnd$use_cli_format <- TRUE
-    cnd$footer <- c("i" = cli::format_inline(
+    cnd$footer <- c("i" = format_inline(
       "Click to {.run [explain](thonk::thonk_explain())} or {.run [fix](thonk::thonk_fix())} the last error."
     ))
 
@@ -104,7 +104,7 @@ thonk_explain <- function() {
   }
 
   if (!env_has(.thonk_env, "last_error")) {
-    cli::cli_alert_warning("No error information available")
+    cli_alert_warning("No error information available")
     return(invisible(NULL))
   }
   
@@ -128,12 +128,12 @@ thonk_explain <- function() {
     chat$chat(prompt, echo = TRUE)
     .stash_last_thonk(chat, which = "explain")
 
-    cli::cat_line()
-    cli::cli_inform(c(
+    cat_line()
+    cli_inform(c(
       "i" = "Click to {.run [fix the issue](thonk::thonk_fix())}."
     ))
   }, error = function(e) {
-    cli::cli_inform("Could not generate error explanation.")
+    cli_inform("Could not generate error explanation.")
   })
   
   invisible(NULL)
@@ -143,16 +143,16 @@ thonk_explain <- function() {
 #' @rdname thonk
 thonk_fix <- function() {
   if (!interactive()) {
-    cli::cli_abort("{.fun thonk_fix} only works interactively.")
+    cli_abort("{.fun thonk_fix} only works interactively.")
     return(invisible(NULL))
   }
   
   if (!exists("last_error", envir = .thonk_env)) {
-    cli::cli_abort("No error information available.")
+    cli_abort("No error information available.")
     return(invisible(NULL))
   }
 
-  cli::cli_progress_step("Analyzing error and generating fix...", spinner = TRUE)
+  cli_progress_step("Analyzing error and generating fix...", spinner = TRUE)
 
   fix_prompt <- "Please generate a fix for this error. Provide only the code that needs to be changed or added, no explanation."
   
@@ -183,13 +183,13 @@ thonk_fix <- function() {
 
   .stash_last_thonk(chat, which = "fix")
   
-  cli::cli_progress_step("Incorporating the fix...", spinner = TRUE)
+  cli_progress_step("Incorporating the fix...", spinner = TRUE)
   file_info <- extract_file_info(back_trace = error_info$backtrace)
   
   if (is.null(file_info$file)) {
-    cli::cli_progress_step("Could not determine file to fix.")
-    cli::cli_progress_done(result = "failed")
-    cli::cat_line(fix_code)
+    cli_progress_step("Could not determine file to fix.")
+    cli_progress_done(result = "failed")
+    cat_line(fix_code)
     return(invisible(NULL))
   }
 
@@ -218,16 +218,16 @@ thonk_fix <- function() {
           line_indices_json <- 
             finder_chat$extract_data(
               finder_prompt, 
-              type = ellmer::type_object(
-                start_line = ellmer::type_number("Starting line index"),
-                end_line = ellmer::type_number("Ending line index"),
-                fixed_code = ellmer::type_string("The modified line(s) of code incorporating the fix.")
+              type = type_object(
+                start_line = type_number("Starting line index"),
+                end_line = type_number("Ending line index"),
+                fixed_code = type_string("The modified line(s) of code incorporating the fix.")
               )
             )
         },
         error = function(e) {
-          cli::cli_progress_step("Could not find the relevant line.")
-          cli::cli_progress_done(result = "failed")
+          cli_progress_step("Could not find the relevant line.")
+          cli_progress_done(result = "failed")
           return(invisible(NULL))
         }
       )
@@ -244,8 +244,8 @@ thonk_fix <- function() {
         text = line_indices_json$fixed_code
       )
       
-      cli::cli_progress_step("Fix applied!")
-      cli::cli_progress_done()
+      cli_progress_step("Fix applied!")
+      cli_progress_done()
     }
   }
 

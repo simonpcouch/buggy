@@ -119,12 +119,12 @@ drop_thonk_handlers <- function() {
 
 set_thonk_chat <- function(x) {
   if (is.null(x)) {
-    cli::cli_inform(
+    cli_inform(
       c(
         "!" = "thonk requires configuring an ellmer Chat with the
-        {cli::col_blue('.thonk_chat')} option.",
+        {col_blue('.thonk_chat')} option.",
         "i" = "Set e.g.
-        {.code {cli::col_green('options(.thonk_chat = ellmer::chat_claude(model = \"claude-3-7-sonnet-latest\"))')}}
+        {.code {col_green('options(.thonk_chat = ellmer::chat_claude(model = \"claude-3-7-sonnet-latest\"))')}}
         in your {.file ~/.Rprofile} and restart R."
       ),
       call = NULL
@@ -133,9 +133,9 @@ set_thonk_chat <- function(x) {
   }
 
   if (!inherits(x, "Chat")) {
-    cli::cli_inform(
+    cli_inform(
       c(
-        "!" = "The option {cli::col_blue('.thonk_chat')} must be an ellmer
+        "!" = "The option {col_blue('.thonk_chat')} must be an ellmer
         Chat object, not {.obj_type_friendly {x}}."
       ),
       call = NULL

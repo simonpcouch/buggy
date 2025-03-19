@@ -3,13 +3,12 @@
 
 ## usethis namespace: start
 #' @import rlang
-#' @import glue
 #' @import ellmer
-#' @import btw
 #' @import cli
-#' @import shiny
-#' @import diffobj
-#' @import coro
-#' @import rstudioapi
+#' @importFrom withr defer
 ## usethis namespace: end
 NULL
+
+utils::globalVariables(c(
+  "capture.output"
+))
