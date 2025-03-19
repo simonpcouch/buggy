@@ -240,8 +240,6 @@ thonk_fix <- function() {
     return(invisible(NULL))
   }
 
-  # TODO: this will probably fail for multi-line calls or
-  # calls situated within other calls.
   if (rstudioapi::isAvailable()) {
     context <- rstudioapi::getSourceEditorContext()
     
