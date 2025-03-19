@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/thonk)](https://CRAN.R-project.org/package=thonk)
+[![R-CMD-check](https://github.com/simonpcouch/thonk/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/simonpcouch/thonk/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of thonk is to help users understand and address error messages using LLMs. With the tool enabled, errors raised to the user are accompanied by clickable links to "explain" or "fix" the issue. Explanations are printed to the console while fixes implement changes directly; in both cases, the model is supplied context about the files you're working in and the functions you're working with.
