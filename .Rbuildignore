@@ -8,3 +8,4 @@ CLAUDE.md
 ^docs$
 ^pkgdown$
 ^\.github$
+inst/hex
