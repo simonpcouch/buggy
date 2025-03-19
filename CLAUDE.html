@@ -37,6 +37,7 @@
 <p>When testing code that raises a message, warning, or error, use <code>expect_snapshot()</code> (possibly with <code>error = TRUE</code>) instead of <code>expect_message()</code> or otherwise.</p>
 <p>When you’re running package tests, use <code>devtools::load_all(); testthat::test_file("tests/testthat/path-to-file.R")</code>. If you encounter namespacing issues, don’t delete tests that otherwise should work, and instead ask me what to do.</p>
 <p>Code that I’ve written previously for a different package that you should model is in <code>inst/context/</code>.</p>
+<p>Files in <code>R/</code> beginning with <code>import-</code>, e.g. <code>import-standalone-types-check.R</code>, are imported files and ought not to be read.</p>
 <div class="section level2">
 <h2 id="context---ellmer-chats">Context - ellmer chats<a class="anchor" aria-label="anchor" href="#context---ellmer-chats"></a></h2>
 <p><code>?</code>(ellmer::Chat)</p>
