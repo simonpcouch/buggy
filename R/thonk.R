@@ -74,13 +74,11 @@ thonk_enable <- function() {
       context = context
     )
 
-    later::later(function() {
-      cli::cli_inform(c(
-        "i" = "Click to {.run [explain](thonk::thonk_explain())} or 
-               {.run [fix](thonk::thonk_fix())} the last error."
-      ))
-    }, delay = 0.1)
-    
+    cnd$use_cli_format <- TRUE
+    cnd$footer <- c("i" = cli::format_inline(
+      "Click to {.run [explain](thonk::thonk_explain())} or {.run [fix](thonk::thonk_fix())} the last error."
+    ))
+
     rlang::cnd_signal(cnd)
   }
   

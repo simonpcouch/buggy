@@ -11,6 +11,5 @@
 #' @import diffobj
 #' @import coro
 #' @import rstudioapi
-#' @import later
 ## usethis namespace: end
 NULL

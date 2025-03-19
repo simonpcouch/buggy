@@ -26,7 +26,6 @@ Imports:
     diffobj,
     ellmer,
     glue,
-    later,
     rlang (>= 1.1.0),
     rstudioapi,
     shiny,
