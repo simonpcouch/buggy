@@ -111,12 +111,12 @@ thonk_explain <- function() {
   error_info <- .thonk_env$last_error
   
   prompt <- paste0(c(
-    "I encountered the following error:\n\n",
+    "I encountered the following error:\n",
     error_info$error_msg, 
-    "\n\nBacktrace:\n",
+    "\nBacktrace:\n",
     format(error_info$backtrace),
-    if (!is.null(error_info$context)) paste0("\n\n", error_info$context) else ""
-  ))
+    if (!is.null(error_info$context)) paste0("\n", error_info$context) else ""
+  ), collapse = "\n")
   
   tryCatch({    
     chat <- get_thonk_chat()
