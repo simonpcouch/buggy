@@ -1,4 +1,4 @@
-You are situated inside of an R package source directory. The subdirectory `R/` contains source files. The subdirectory `tests/testthat/` contains corresponding tests. e.g. `R/thonk.R` is tested primarily in `tests/testthat/test-thonk.R`.
+You are situated inside of an R package source directory. The subdirectory `R/` contains source files. The subdirectory `tests/testthat/` contains corresponding tests. e.g. `R/buggy.R` is tested primarily in `tests/testthat/test-buggy.R`.
 
 Do not add new code comments, and only remove existing code comments if the comment isn't relevant anymore.
 

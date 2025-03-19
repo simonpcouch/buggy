@@ -1,4 +1,4 @@
-.thonk_env <- new_environment()
+.buggy_env <- new_environment()
 
 extract_function_info <- function(call) {
   if (is.null(call)) {
@@ -66,7 +66,7 @@ extract_file_info <- function(back_trace) {
   list(file = NULL, line = NULL)
 }
 
-drop_thonk_handlers <- function() {
+drop_buggy_handlers <- function() {
   current_handlers <- globalCallingHandlers()
   
   if (is.null(current_handlers$error)) {
@@ -78,13 +78,13 @@ drop_thonk_handlers <- function() {
   
   if (is.function(error_handlers)) {
     handler_env <- environment(error_handlers)
-    if (!rlang::env_has(handler_env, ".thonk_handler")) {
+    if (!rlang::env_has(handler_env, ".buggy_handler")) {
       handlers_to_keep <- error_handlers
     }
   } else {
     for (i in seq_along(error_handlers)) {
       handler_env <- environment(error_handlers[[i]])
-      if (!rlang::env_has(handler_env, ".thonk_handler")) {
+      if (!rlang::env_has(handler_env, ".buggy_handler")) {
         handlers_to_keep <- c(handlers_to_keep, list(error_handlers[[i]]))
       }
     }
@@ -105,26 +105,26 @@ drop_thonk_handlers <- function() {
   invisible(NULL)
 }
 
-.stash_last_thonk <- function(x, which) {
-  if (!"pkg:thonk" %in% search()) {
+.stash_last_buggy <- function(x, which) {
+  if (!"pkg:buggy" %in% search()) {
     do.call(
       "attach",
-      list(new.env(), pos = length(search()), name = "pkg:thonk")
+      list(new.env(), pos = length(search()), name = "pkg:buggy")
     )
   }
-  env <- as.environment("pkg:thonk")
-  env_bind(env, !!paste0(".last_thonk_", which) := x)
+  env <- as.environment("pkg:buggy")
+  env_bind(env, !!paste0(".last_buggy_", which) := x)
   invisible(NULL)
 }
 
-set_thonk_chat <- function(x) {
+set_buggy_chat <- function(x) {
   if (is.null(x)) {
     cli_inform(
       c(
-        "!" = "thonk requires configuring an ellmer Chat with the
-        {col_blue('.thonk_chat')} option.",
+        "!" = "buggy requires configuring an ellmer Chat with the
+        {col_blue('.buggy_chat')} option.",
         "i" = "Set e.g.
-        {.code {col_green('options(.thonk_chat = ellmer::chat_claude(model = \"claude-3-7-sonnet-latest\"))')}}
+        {.code {col_green('options(.buggy_chat = ellmer::chat_claude(model = \"claude-3-7-sonnet-latest\"))')}}
         in your {.file ~/.Rprofile} and restart R."
       ),
       call = NULL
@@ -135,7 +135,7 @@ set_thonk_chat <- function(x) {
   if (!inherits(x, "Chat")) {
     cli_inform(
       c(
-        "!" = "The option {col_blue('.thonk_chat')} must be an ellmer
+        "!" = "The option {col_blue('.buggy_chat')} must be an ellmer
         Chat object, not {.obj_type_friendly {x}}."
       ),
       call = NULL
@@ -144,12 +144,12 @@ set_thonk_chat <- function(x) {
   }
 
   res <- x$set_turns(list())$clone()
-  env_bind(.thonk_env, chat = res)
+  env_bind(.buggy_env, chat = res)
   res
 }
 
-get_thonk_chat <- function() {
-  env_get(.thonk_env, "chat")$clone()
+get_buggy_chat <- function() {
+  env_get(.buggy_env, "chat")$clone()
 }
 
 # set bindings for later mocking

@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(thonk)
+library(buggy)
 
-test_check("thonk")
+test_check("buggy")

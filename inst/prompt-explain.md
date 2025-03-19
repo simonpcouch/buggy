@@ -13,8 +13,8 @@ sum(1, "n")
 #> 
 #>    ▆
 #> 1. └─base::.handleSimpleError(...)
-#> 2.   └─thonk (local) h(simpleError(msg, call))
-#> 3.     └─rlang::cnd_signal(cnd) at thonk/R/thonk.R:27:7
+#> 2.   └─buggy (local) h(simpleError(msg, call))
+#> 3.     └─rlang::cnd_signal(cnd) at buggy/R/buggy.R:27:7
 #> 4.       └─rlang:::signal_abort(cnd)
 ```
 

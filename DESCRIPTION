@@ -1,4 +1,4 @@
-Package: thonk
+Package: buggy
 Title: Explain and Address Error Messages
 Version: 0.0.0.9000
 Authors@R: c(
@@ -28,6 +28,6 @@ Imports:
     withr
 Remotes:
     posit-dev/btw
-URL: https://github.com/simonpcouch/thonk, https://simonpcouch.github.io/thonk/
-BugReports: https://github.com/simonpcouch/thonk/issues
+URL: https://github.com/simonpcouch/buggy, https://simonpcouch.github.io/buggy/
+BugReports: https://github.com/simonpcouch/buggy/issues
 Config/Needs/website: tidyverse/tidytemplate
