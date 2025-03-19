@@ -103,7 +103,7 @@ thonk_explain <- function() {
     return(invisible(NULL))
   }
 
-  if (!exists("last_error", envir = .thonk_env)) {
+  if (!env_has(.thonk_env, "last_error")) {
     cli::cli_alert_warning("No error information available")
     return(invisible(NULL))
   }

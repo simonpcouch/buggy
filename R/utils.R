@@ -9,14 +9,10 @@ extract_function_info <- function(call) {
   
   # check if it's a namespaced call (pkg::func)
   if (length(func_name) > 1 && grepl("::", func_name[1])) {
-    parts <- strsplit(func_name[1], "::")[[1]]
-    if (length(parts) == 2) {
-      pkg <- parts[1]
-      func <- parts[2]
-      
-      if (!pkg %in% c("rlang", "base")) {
-        return(list(func = func, pkg = pkg))
-      }
+    func <- func_name[3]
+    pkg <- func_name[2]
+    if (!pkg %in% c("rlang", "base")) {
+      return(list(func = func, pkg = pkg))
     }
   }
   
@@ -155,3 +151,8 @@ set_thonk_chat <- function(x) {
 get_thonk_chat <- function() {
   env_get(.thonk_env, "chat")$clone()
 }
+
+# set bindings for later mocking
+interactive <- NULL
+inherits <- NULL
+globalCallingHandlers <- NULL
