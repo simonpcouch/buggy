@@ -1,101 +1,107 @@
-test_that("thonk_enable works in interactive mode", {
+test_that("thonk_enable works", {
+  local_mocked_bindings(
+    set_thonk_chat = function(x) TRUE,
+    interactive = function() FALSE
+  )
+  
+  expect_equal(thonk_enable(), invisible(NULL))
+  
+  local_mocked_bindings(
+    interactive = function() TRUE,
+    drop_thonk_handlers = function() NULL,
+    globalCallingHandlers = function(...) NULL
+  )
+  
+  expect_equal(thonk_enable(), invisible(NULL))
+})
+
+test_that("thonk_explain warns when no error info", {
   local_mocked_bindings(
     interactive = function() TRUE
   )
   
-  original_error_handler <- getOption("error")
+  mock_env <- new_environment()
+  local_mocked_bindings(.thonk_env = mock_env)
   
-  on.exit({
-    options(error = original_error_handler)
-  })
-  
-  expect_silent(thonk_enable())
-  
-  expect_true(is.function(getOption("error")))
+  expect_snapshot(thonk_explain())
 })
 
-test_that("thonk_enable does nothing in non-interactive mode", {
+test_that("thonk_explain works with error info", {
+  skip_if(identical(Sys.getenv("ANTHROPIC_API_KEY"), ""))
+  
+  local_mocked_bindings(
+    interactive = function() TRUE,
+    .stash_last_thonk = function(...) NULL
+  )
+  
+  chat <- ellmer:::chat_claude(model = "claude-3-7-sonnet-latest")
+  
+  mock_error_info <- list(
+    error_msg = "Error message",
+    backtrace = trace_back(),
+    context = "Error context"
+  )
+  
+  mock_env <- new_environment()
+  env_bind(mock_env, last_error = mock_error_info)
+  
+  local_mocked_bindings(
+    .thonk_env = mock_env,
+    get_thonk_chat = function() chat
+  )
+  
+  expect_snapshot(
+    explanation <- capture.output(res <- thonk_explain())
+  )
+  expect_gte(length(explanation), 1)
+})
+
+test_that("thonk_fix fails outside interactive mode", {
   local_mocked_bindings(
     interactive = function() FALSE
   )
   
-  original_error_handler <- getOption("error")
-  
-  on.exit({
-    options(error = original_error_handler)
-  })
-  
-  expect_silent(thonk_enable())
-  
-  expect_equal(getOption("error"), original_error_handler)
+  expect_snapshot(thonk_fix(), error = TRUE)
 })
 
-test_that("extract_function_info extracts function and package info", {
-  mock_call <- quote(dplyr::filter(mtcars, cyl == 8))
+test_that("thonk_fix errors when no error info", {
+  local_mocked_bindings(
+    interactive = function() TRUE
+  )
+  
+  mock_env <- new_environment()
+  local_mocked_bindings(.thonk_env = mock_env)
+  
+  expect_snapshot(thonk_fix(), error = TRUE)
+})
+
+test_that("thonk_fix works with an error without file info", {
+  skip_if(identical(Sys.getenv("ANTHROPIC_API_KEY"), ""))
   
   local_mocked_bindings(
-    format = function(x) {
-      if (identical(x, quote(dplyr::filter(mtcars, cyl == 8)))) {
-        "dplyr::filter(mtcars, cyl == 8)"
-      } else {
-        "rlang::trace_back()"
-      }
-    }
+    interactive = function() TRUE,
+    extract_file_info = function(...) list(file = NULL, line = NULL),
+    .stash_last_thonk = function(...) NULL
   )
   
-  result <- extract_function_info(call = mock_call)
+  chat <- ellmer:::chat_claude(model = "claude-3-7-sonnet-latest")
   
-  expect_equal(result$func, "filter")
-  expect_equal(result$pkg, "dplyr")
-})
-
-test_that("extract_file_info extracts file and line info", {
-  srcfile <- structure(
-    list(filename = "test.R"),
-    class = "srcfile"
+  mock_error_info <- list(
+    error_msg = "Error message",
+    backtrace = trace_back(),
+    context = "Error context"
   )
   
-  mock_back_trace <- list(
-    src = list(
-      NULL,
-      structure(c(10, 0, 0, 0), srcfile = srcfile)
-    )
+  mock_env <- new_environment()
+  env_bind(mock_env, last_error = mock_error_info)
+  
+  local_mocked_bindings(
+    .thonk_env = mock_env,
+    get_thonk_chat = function() chat
   )
   
-  result <- extract_file_info(back_trace = mock_back_trace)
-  
-  expect_equal(result$file, "test.R")
-  expect_equal(result$line, 10)
-})
-
-test_that("extract_code_blocks extracts R code blocks", {
-  markdown_text <- "
-Here's an explanation:
-
-```r
-# This is R code
-x <- 10
-y <- 20
-```
-
-And more text.
-"
-  
-  result <- extract_code_blocks(markdown_text)
-  
-  expect_equal(length(result), 1)
-  expect_equal(result[[1]], c("# This is R code", "x <- 10", "y <- 20"))
-})
-
-test_that("extract_code_blocks handles plain text when no code blocks", {
-  plain_text <- "
-x <- 10
-y <- 20
-z <- x + y
-"
-  
-  result <- extract_code_blocks(plain_text)
-  
-  expect_equal(length(result), 1)
-  expect_equal(result[[1]], c("x <- 10", "y <- 20", "z <- x + y"))
+  expect_snapshot(
+    explanation <- capture.output(res <- thonk_explain())
+  )
+  expect_gte(length(explanation), 1)
 })
