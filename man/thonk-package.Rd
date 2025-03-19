@@ -5,6 +5,8 @@
 \alias{thonk-package}
 \title{thonk: Explain and Address Error Messages}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Helps users understand and address error messages using large language models. With the tool enabled, errors raised to the user are accompanied by clickable links to "explain" or "fix" the issue. Explanations are printed to the console while fixes implement changes directly; in both cases, the model is supplied context about the files you're working in and the functions you're working with.
 }
 \seealso{

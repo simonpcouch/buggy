@@ -7,11 +7,17 @@
 \alias{thonk_fix}
 \title{Troubleshoot errors with LLMs}
 \usage{
-thonk_enable()
+thonk_enable(chat = getOption(".thonk_chat"))
 
 thonk_explain()
 
 thonk_fix()
+}
+\arguments{
+\item{chat}{An ellmer Chat object to use for interacting with the language model.
+If not provided, uses the value from \code{getOption(".thonk_chat")}.
+Set e.g. \code{options(.thonk_chat = ellmer::chat_claude(model = "claude-3-7-sonnet-latest"))}
+in your .Rprofile.}
 }
 \description{
 The thonk package provides tools for automatically explaining and fixing R

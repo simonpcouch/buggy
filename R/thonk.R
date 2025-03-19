@@ -35,9 +35,15 @@ format <- NULL
 #' @name thonk
 NULL
 
+#' @param chat An ellmer Chat object to use for interacting with the language model.
+#'   If not provided, uses the value from `getOption(".thonk_chat")`.
+#'   Set e.g. `options(.thonk_chat = ellmer::chat_claude(model = "claude-3-7-sonnet-latest"))`
+#'   in your .Rprofile.
 #' @export
 #' @rdname thonk
-thonk_enable <- function() {
+thonk_enable <- function(chat = getOption(".thonk_chat")) {
+  set_thonk_chat(chat)
+
   if (!interactive()) {
     return(invisible(NULL))
   }
@@ -104,22 +110,20 @@ thonk_explain <- function() {
   
   error_info <- .thonk_env$last_error
   
-  prompt <- paste0(
+  prompt <- paste0(c(
     "I encountered the following error:\n\n",
     error_info$error_msg, 
     "\n\nBacktrace:\n",
     format(error_info$backtrace),
     if (!is.null(error_info$context)) paste0("\n\n", error_info$context) else ""
-  )
+  ))
   
-  tryCatch({
-    chat <- ellmer::chat_claude(
-      model = "claude-3-7-sonnet-latest",
-      system_prompt = paste0(readLines(
-        system.file("prompt-explain.md", package = "thonk")), 
-        collapse = NULL
-      )
-    )
+  tryCatch({    
+    chat <- get_thonk_chat()
+    chat$set_system_prompt(paste0(
+      readLines(system.file("prompt-explain.md", package = "thonk")), 
+      collapse = "\n"
+    ))
     
     chat$chat(prompt, echo = TRUE)
     .stash_last_thonk(chat, which = "explain")
@@ -129,7 +133,7 @@ thonk_explain <- function() {
       "i" = "Click to {.run [fix the issue](thonk::thonk_fix())}."
     ))
   }, error = function(e) {
-    message("Could not generate error explanation.")
+    cli::cli_inform("Could not generate error explanation.")
   })
   
   invisible(NULL)
@@ -220,7 +224,7 @@ thonk_fix <- function() {
       "\n\n", fix_prompt
     )
     
-    chat <- ellmer::chat_claude(model = "claude-3-7-sonnet-latest")
+    chat <- get_thonk_chat()
     fix_code <- chat$chat(prompt, echo = TRUE)
   }
 
@@ -243,7 +247,7 @@ thonk_fix <- function() {
       file_content <- context$contents
       error_line <- file_info$line
       
-      finder_chat <- ellmer::chat_claude(model = "claude-3-7-sonnet-latest")
+      finder_chat <- get_thonk_chat()
       
       finder_prompt <- paste0(
         "I need to fix a bug in the following R file. The error occurs around line ", 
@@ -360,4 +364,39 @@ drop_thonk_handlers <- function() {
   env <- as.environment("pkg:thonk")
   env_bind(env, !!paste0(".last_thonk_", which) := x)
   invisible(NULL)
+}
+
+set_thonk_chat <- function(x) {
+  if (is.null(x)) {
+    cli::cli_inform(
+      c(
+        "!" = "thonk requires configuring an ellmer Chat with the
+        {cli::col_blue('.thonk_chat')} option.",
+        "i" = "Set e.g.
+        {.code {cli::col_green('options(.thonk_chat = ellmer::chat_claude(model = \"claude-3-7-sonnet-latest\"))')}}
+        in your {.file ~/.Rprofile} and restart R."
+      ),
+      call = NULL
+    )
+    return(NULL)
+  }
+
+  if (!inherits(x, "Chat")) {
+    cli::cli_inform(
+      c(
+        "!" = "The option {cli::col_blue('.thonk_chat')} must be an ellmer
+        Chat object, not {.obj_type_friendly {x}}."
+      ),
+      call = NULL
+    )
+    return(NULL)
+  }
+
+  res <- x$set_turns(list())$clone()
+  env_bind(.thonk_env, chat = res)
+  res
+}
+
+get_thonk_chat <- function() {
+  env_get(.thonk_env, "chat")$clone()
 }
