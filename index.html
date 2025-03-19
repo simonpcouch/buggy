@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Explain and Address Error Messages • thonk</title>
+<title>Explain and Address Error Messages • buggy</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -13,7 +13,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Explain and Address Error Messages">
 <meta name="description" content='Helps users understand and address error messages using large language models. With the tool enabled, errors raised to the user are accompanied by clickable links to "explain" or "fix" the issue. Explanations are printed to the console while fixes implement changes directly; in both cases, the model is supplied context about the files youre working in and the functions youre working with.'>
 <meta property="og:description" content='Helps users understand and address error messages using large language models. With the tool enabled, errors raised to the user are accompanied by clickable links to "explain" or "fix" the issue. Explanations are printed to the console while fixes implement changes directly; in both cases, the model is supplied context about the files youre working in and the functions youre working with.'>
-<meta property="og:image" content="https://simonpcouch.github.io/thonk/logo.png">
+<meta property="og:image" content="https://simonpcouch.github.io/buggy/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -21,7 +21,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="index.html">thonk</a>
+    <a class="navbar-brand me-2" href="index.html">buggy</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
 
@@ -38,7 +38,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/simonpcouch/thonk/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/simonpcouch/buggy/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -48,20 +48,20 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="thonk-">thonk 
-<a class="anchor" aria-label="anchor" href="#thonk-"></a>
+<img src="logo.png" class="logo" alt=""><h1 id="buggy-">buggy 
+<a class="anchor" aria-label="anchor" href="#buggy-"></a>
 </h1>
 </div>
 <!-- badges: start -->
 
-<p>The goal of thonk is to help users understand and address error messages using LLMs. With the tool enabled, errors raised to the user are accompanied by clickable links to “explain” or “fix” the issue. Explanations are printed to the console while fixes implement changes directly; in both cases, the model is supplied context about the files you’re working in and the functions you’re working with.</p>
+<p>The goal of buggy is to help users understand and address error messages using LLMs. With the tool enabled, errors raised to the user are accompanied by clickable links to “explain” or “fix” the issue. Explanations are printed to the console while fixes implement changes directly; in both cases, the model is supplied context about the files you’re working in and the functions you’re working with.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of thonk like so:</p>
+<p>You can install the development version of buggy like so:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"simonpcouch/thonk"</span><span class="op">)</span></span></code></pre></div>
-<p>To enable thonk, call <code><a href="reference/thonk.html">thonk::thonk_enable()</a></code>. To always have thonk enabled every time you start R, you could add <code><a href="reference/thonk.html">thonk::thonk_enable()</a></code> to your <code>.Rprofile</code>, perhaps with <code>usethis::edit_r_profile()</code>.</p>
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"simonpcouch/buggy"</span><span class="op">)</span></span></code></pre></div>
+<p>To enable buggy, call <code><a href="reference/buggy.html">buggy::buggy_enable()</a></code>. To always have buggy enabled every time you start R, you could add <code><a href="reference/buggy.html">buggy::buggy_enable()</a></code> to your <code>.Rprofile</code>, perhaps with <code>usethis::edit_r_profile()</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
@@ -79,8 +79,8 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/simonpcouch/thonk/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/simonpcouch/thonk/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/simonpcouch/buggy/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/simonpcouch/buggy/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -96,7 +96,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing thonk</a></li>
+<li><a href="authors.html#citation">Citing buggy</a></li>
 </ul>
 </div>
 
@@ -112,8 +112,8 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://CRAN.R-project.org/package=thonk" class="external-link"><img src="https://www.r-pkg.org/badges/version/thonk" alt="CRAN status"></a></li>
-<li><a href="https://github.com/simonpcouch/thonk/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/simonpcouch/thonk/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://CRAN.R-project.org/package=buggy" class="external-link"><img src="https://www.r-pkg.org/badges/version/buggy" alt="CRAN status"></a></li>
+<li><a href="https://github.com/simonpcouch/buggy/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/simonpcouch/buggy/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
