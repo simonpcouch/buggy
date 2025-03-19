@@ -10,6 +10,8 @@ When you're running package tests, use `devtools::load_all(); testthat::test_fil
 
 Code that I've written previously for a different package that you should model is in `inst/context/`.
 
+Files in `R/` beginning with `import-`, e.g. `import-standalone-types-check.R`, are imported files and ought not to be read.
+
 ## Context - ellmer chats
 
 `?`(ellmer::Chat) 
