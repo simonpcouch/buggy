@@ -189,8 +189,6 @@ extract_function_info <- function(call) {
 #' @export
 #' @rdname thonk
 thonk_fix <- function() {
-  # TODO: to make this feel snappier, we can generate the fix and the location
-  # for it async, perhaps streaming the fix out to the console while doing so.
   if (!interactive()) {
     cli::cli_abort("{.fun thonk_fix} only works interactively.")
     return(invisible(NULL))
@@ -200,7 +198,9 @@ thonk_fix <- function() {
     cli::cli_abort("No error information available.")
     return(invisible(NULL))
   }
-  
+
+  cli::cli_progress_step("Analyzing error and generating fix...", spinner = TRUE)
+
   fix_prompt <- "Please generate a fix for this error. Provide only the code that needs to be changed or added, no explanation."
   
   error_info <- .thonk_env$last_error
@@ -230,10 +230,12 @@ thonk_fix <- function() {
 
   .stash_last_thonk(chat, which = "fix")
   
+  cli::cli_progress_step("Incorporating the fix...", spinner = TRUE)
   file_info <- extract_file_info(back_trace = error_info$backtrace)
   
   if (is.null(file_info$file)) {
-    cli::cli_warn("Could not determine file to fix.")
+    cli::cli_progress_step("Could not determine file to fix.")
+    cli::cli_progress_done(result = "failed")
     cli::cat_line(fix_code)
     return(invisible(NULL))
   }
@@ -273,7 +275,8 @@ thonk_fix <- function() {
             )
         },
         error = function(e) {
-          cli::cli_alert_danger("Could not find the relevant line.")
+          cli::cli_progress_step("Could not find the relevant line.")
+          cli::cli_progress_done(result = "failed")
           return(invisible(NULL))
         }
       )
@@ -289,6 +292,9 @@ thonk_fix <- function() {
         location = range,
         text = line_indices_json$fixed_code
       )
+      
+      cli::cli_progress_step("Fix applied!")
+      cli::cli_progress_done()
     }
   }
 
